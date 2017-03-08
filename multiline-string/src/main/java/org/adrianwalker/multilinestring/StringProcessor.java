@@ -4,6 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 
+/**
+ * @see org.adrianwalker.multilinestring.support.StringProcessorStrategy
+ * @see org.adrianwalker.multilinestring.support.MultilineStrategy
+ * @see org.adrianwalker.multilinestring.support.SqlMultilineStrategy
+ *
+ */
 @Deprecated
 public class StringProcessor 
 {
