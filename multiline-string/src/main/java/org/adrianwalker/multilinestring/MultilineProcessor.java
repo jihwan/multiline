@@ -18,18 +18,21 @@ import javax.lang.model.element.TypeElement;
  * @author Sanghyuk Jung
  * @author Dave Smith
  */
-@SupportedAnnotationTypes({"org.adrianwalker.multilinestring.Multiline", "org.adrianwalker.multilinestring.SqlMultiline"})
+@SupportedAnnotationTypes({ 
+	"org.adrianwalker.multilinestring.Multiline", 
+	"org.adrianwalker.multilinestring.SqlMultiline" 
+})
 public final class MultilineProcessor extends AbstractProcessor {
-  private Processor delegator = null;
-  
-  @Override
-  public void init(final ProcessingEnvironment procEnv) {
-	  super.init(procEnv);
-	  String envClassName = procEnv.getClass().getName();
-	  if (envClassName.contains("com.sun.tools")) {
-		  delegator = new JavacMultilineProcessor();
-	  } else {
-//		  delegator = new EcjMultilineProcessor();
+	private Processor delegator = null;
+
+	@Override
+	public void init(final ProcessingEnvironment procEnv) {
+		super.init(procEnv);
+		String envClassName = procEnv.getClass().getName();
+		if (envClassName.contains("com.sun.tools")) {
+			delegator = new JavacMultilineProcessor();
+		} else {
+			// delegator = new EcjMultilineProcessor();
 			try {
 				ClassLoader parentClassLoader = MultilineProcessor.class.getClassLoader();
 				URL[] urLs = ((URLClassLoader) parentClassLoader).getURLs();
@@ -39,62 +42,59 @@ public final class MultilineProcessor extends AbstractProcessor {
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-	  }
-	  delegator.init(procEnv);
-  }
+		}
+		delegator.init(procEnv);
+	}
 
-  @Override
-  public boolean process(final Set<? extends TypeElement> annotations, final RoundEnvironment roundEnv) {
-	  if (delegator == null ) {
-		  return true;
-	  }
-	  return delegator.process(annotations, roundEnv);
-  }
-  
-  @Override
-  public SourceVersion getSupportedSourceVersion() {
-	  return SourceVersion.latest();
-  }
-  
-  /**
-   * @author Dave Smith
-   */
-  class ProxyClassLoader extends URLClassLoader {
-		
+	@Override
+	public boolean process(final Set<? extends TypeElement> annotations, final RoundEnvironment roundEnv) {
+		if (delegator == null) {
+			return true;
+		}
+		return delegator.process(annotations, roundEnv);
+	}
+
+	@Override
+	public SourceVersion getSupportedSourceVersion() {
+		return SourceVersion.latest();
+	}
+
+	class ProxyClassLoader extends URLClassLoader {
+
 		private final ClassLoader contextLoader;
-		
-		ProxyClassLoader(URL[] urls, ClassLoader contextLoader) {	
+
+		ProxyClassLoader(URL[] urls, ClassLoader contextLoader) {
 			super(urls, contextLoader);
 			this.contextLoader = contextLoader;
-		}	
-		
+		}
+
 		/**
 		 * <p>
-		 * 	getClassLoadingLock method since jdk 1.7
+		 * getClassLoadingLock method since jdk 1.7
+		 * so, change to synchronized method
 		 * </p>
-		 * 
 		 */
 		@Override
 		public synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-//			synchronized (super.getClassLoadingLock(name)) {
-				Class<?> c;
-				if (!name.startsWith("org.adrianwalker.multilinestring")) {
-					c = contextLoader.loadClass(name);
-				} else {
-					c = findLoadedClass(name);
-					if (c == null) {
-						try {
-							c = findClass(name);
-						} catch (ClassNotFoundException ex) {
-							return super.loadClass(name, resolve);
-						}
+			// synchronized (super.getClassLoadingLock(name)) {
+			Class<?> c;
+			if (!name.startsWith("org.adrianwalker.multilinestring")) {
+				c = contextLoader.loadClass(name);
+			} else {
+				c = findLoadedClass(name);
+				if (c == null) {
+					try {
+						c = findClass(name);
+					} catch (ClassNotFoundException ex) {
+						return super.loadClass(name, resolve);
 					}
 				}
-				if (resolve) {
-					resolveClass(c);
-				}
-				return c;
-//			}
+			}
+			if (resolve) {
+				resolveClass(c);
+			}
+			return c;
+			// }
 		}
 	}
 }
