@@ -12,5 +12,4 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.SOURCE)
 public @interface SqlMultiline {
 	boolean mergeLines() default false;
-	char mergeChar() default ' ';
 }
