@@ -12,6 +12,9 @@ import org.adrianwalker.multilinestring.SqlMultiline;
  * @author Jihwan Hwang
  */
 public class SqlMultilineStrategy implements StringProcessorStrategy {
+	
+	final char MERGE_CHAR = ' ';
+	
 	@Override
 	public String toString(String value, Element fieldElem) {
 
@@ -32,16 +35,9 @@ public class SqlMultilineStrategy implements StringProcessorStrategy {
 			String line = reader.readLine();
 			while (line != null) {
 				if (annotation.mergeLines() && buf.length() > 0) {
-					// buf.append(annotation.mergeChar());
-					if (annotation.mergeChar() != '\0') {
-						buf.append(annotation.mergeChar());
-					}
+					buf.append(MERGE_CHAR);
 				}
 				buf.append(line);
-				if (!annotation.mergeLines()) {
-					buf.append(CRNL);
-				}
-
 				line = reader.readLine();
 			}
 			return buf.toString();
