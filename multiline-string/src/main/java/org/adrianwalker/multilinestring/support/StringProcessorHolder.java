@@ -11,7 +11,7 @@ import org.adrianwalker.multilinestring.SqlMultiline;
  */
 public class StringProcessorHolder {
 	
-	Map<String, StringProcessorStrategy> map = new HashMap<String, StringProcessorStrategy>();
+	Map<String, StringProcessorStrategy> map = new HashMap<String, StringProcessorStrategy>(2);
 
 	public StringProcessorHolder() {
 		map.put(Multiline.class.getName(), new MultilineStrategy());
