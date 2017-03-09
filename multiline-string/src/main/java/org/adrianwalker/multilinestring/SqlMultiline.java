@@ -6,6 +6,18 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * <pre>
+ *   oracle hint support.
+ *   [*+ ... *] => /{@literal *+} ... {@literal *}/
+ * </pre>
+ *
+ * (Ex.)
+ * <pre><code>
+ *   SELECT [*+ YOUR_ORACLE_HINT_HERE *]
+ *   	...
+ *   FROM
+ *   	...
+ * </code></pre>
  * @author Jihwan Hwang
  */
 @Target(ElementType.FIELD)
