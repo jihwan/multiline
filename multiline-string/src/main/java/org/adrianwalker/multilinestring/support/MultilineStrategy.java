@@ -21,11 +21,12 @@ public class MultilineStrategy implements StringProcessorStrategy {
 			return value;
 		}
 
+		BufferedReader reader = null;
 		try {
-			BufferedReader reader = new BufferedReader(new StringReader(value));
+			reader = new BufferedReader(new StringReader(value));
 			StringBuilder buf = new StringBuilder();
-			String line = reader.readLine();
-			while (line != null) {
+			String line;
+			while ((line = reader.readLine()) != null) {
 				if (annotation.trimWhiteSpace()) {
 					line = line.trim();
 				}
@@ -33,12 +34,18 @@ public class MultilineStrategy implements StringProcessorStrategy {
 					buf.append(annotation.mergeChar());
 				}
 				buf.append(line);
-				line = reader.readLine();
 			}
 			return buf.toString();
 		} catch (IOException ex) {
 			// should never happen. Just return the value
 			return value;
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+				}
+			}
 		}
 	}
 }
