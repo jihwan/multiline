@@ -20,6 +20,7 @@ public class SqlMultilineStrategy implements StringProcessorStrategy {
 
 		SqlMultiline annotation = SqlMultiline.class.cast(fieldElem.getAnnotation(SqlMultiline.class));
 
+		// [* *] => /* */
 		if (value.contains("[*") || value.contains("*]")) {
 			value = value.replaceAll("\\[\\*", "/*");
 			value = value.replaceAll("\\*\\]", "*/");
