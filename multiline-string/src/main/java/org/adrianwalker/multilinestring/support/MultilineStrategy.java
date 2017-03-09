@@ -13,7 +13,7 @@ import org.adrianwalker.multilinestring.Multiline;
  */
 public class MultilineStrategy implements StringProcessorStrategy {
 	@Override
-	public String toString(String value, Element fieldElem) {
+	public String processString(String value, Element fieldElem) {
 		
 		Multiline annotation = Multiline.class.cast(fieldElem.getAnnotation(Multiline.class));
 

@@ -9,5 +9,5 @@ public interface StringProcessorStrategy {
 	
 	String CRNL = System.getProperty("line.separator");
 	
-	String toString(String value, Element fieldElem);
+	String processString(String value, Element fieldElem);
 }

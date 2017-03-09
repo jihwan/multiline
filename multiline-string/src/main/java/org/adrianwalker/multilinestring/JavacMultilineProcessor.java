@@ -38,7 +38,7 @@ public final class JavacMultilineProcessor extends AbstractMultilineProcessor {
 				
 				JCVariableDecl fieldNode = (JCVariableDecl) elementUtils.getTree(field);
 				fieldNode.init = maker
-						.Literal(strategy.toString(docComment, field));
+						.Literal(strategy.processString(docComment, field));
 			}
 		}
 	}

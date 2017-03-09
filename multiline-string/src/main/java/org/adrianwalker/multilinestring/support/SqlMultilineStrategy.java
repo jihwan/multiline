@@ -16,7 +16,7 @@ public class SqlMultilineStrategy implements StringProcessorStrategy {
 	final char MERGE_CHAR = ' ';
 	
 	@Override
-	public String toString(String value, Element fieldElem) {
+	public String processString(String value, Element fieldElem) {
 
 		SqlMultiline annotation = SqlMultiline.class.cast(fieldElem.getAnnotation(SqlMultiline.class));
 

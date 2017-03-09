@@ -36,7 +36,7 @@ public final class EcjMultilineProcessor extends AbstractMultilineProcessor {
 				FieldBinding biding = (FieldBinding) fieldElem._binding;
 				FieldDeclaration decl = biding.sourceField();
 				StringLiteral string = new StringLiteral(
-						strategy.toString(docComment, fieldElem).toCharArray(), 
+						strategy.processString(docComment, fieldElem).toCharArray(),
 						decl.sourceStart,
 						decl.sourceEnd, 
 						decl.sourceStart);
