@@ -31,9 +31,14 @@ public class MultilineStrategy implements StringProcessorStrategy {
 					line = line.trim();
 				}
 				if (annotation.mergeLines() && buf.length() > 0) {
-					buf.append(annotation.mergeChar());
+					if(annotation.mergeChar() != '\0') {
+						buf.append(annotation.mergeChar());
+					}
 				}
 				buf.append(line);
+				if(!annotation.mergeLines()) {
+					buf.append(CRNL);
+				}
 			}
 			return buf.toString();
 		} catch (IOException ex) {
