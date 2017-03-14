@@ -28,14 +28,10 @@ public final class JavacMultilineProcessor extends AbstractMultilineProcessor {
 	}
 	
 	@Override
-	void processMultiline(final RoundEnvironment roundEnv, TypeElement annotation, StringProcessorStrategy strategy) {
-		Set<? extends Element> fields = roundEnv.getElementsAnnotatedWith(annotation);
-
+	void processMultiline(final Set<? extends Element> fields, final StringProcessorStrategy strategy) {
 		for (Element field : fields) {
 			String docComment = elementUtils.getDocComment(field);
-		
 			if (null != docComment) {
-				
 				JCVariableDecl fieldNode = (JCVariableDecl) elementUtils.getTree(field);
 				fieldNode.init = maker
 						.Literal(strategy.processString(docComment, field));
