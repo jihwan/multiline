@@ -8,7 +8,6 @@ import java.io.StringReader;
  * @see org.adrianwalker.multilinestring.support.StringProcessorStrategy
  * @see org.adrianwalker.multilinestring.support.MultilineStrategy
  * @see org.adrianwalker.multilinestring.support.SqlMultilineStrategy
- *
  */
 @Deprecated
 public class StringProcessor 
@@ -34,7 +33,10 @@ public class StringProcessor
 				}
 				if(annotation.mergeLines() && buf.length()>0)
 				{
-					buf.append(annotation.mergeChar());
+					if(annotation.mergeChar() != '\0')
+					{
+						buf.append(annotation.mergeChar());
+					}
 				}
 				buf.append(line);
 				if(!annotation.mergeLines())
